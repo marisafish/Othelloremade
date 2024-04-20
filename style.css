@@ -1,0 +1,71 @@
+@import url("https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;400;500;700&display=swap");
+
+* {
+font-family: 'Zen Maru Gothic';
+}
+
+body {
+  background: url(https://img.freepik.com/free-photo/living-room-product-backdrop-interior-background_53876-147964.jpg?t=st=1713579808~exp=1713583408~hmac=bb0fee55cfb326e7ad9099fbd3b9e364e6bb36b4a30cb8a640ef06ae9246bacb&w=740);
+  background-repeat: no-repeat;
+  background-position:60% 60%;
+  background-size:cover;
+  padding: 20px;
+}
+
+.container {
+  font-size: 0; /* ボタンの余白をなくす */
+}
+
+#title {
+  /* 配置 */
+  text-align: center;
+
+  /* 色 */
+  color: #FFE700;
+}
+
+#board {
+  /* 配置 */
+  margin: 5rem auto;
+  
+  /* サイズ */
+  width: 40rem;
+  height: 40rem;
+  
+  /* 色 */
+  background-color: black;
+  outline: 1.5rem solid;
+  outline-color: black;
+}
+
+.square {
+  /* サイズ */
+  width: 5rem;
+  height: 5rem;
+  
+  /* 色 */
+  background-color: green;
+  box-shadow: none !important;
+
+  /* フォントサイズ */
+  font-size: 2.5rem;
+}
+
+.square[data-owner="black"] {
+  color: black;
+}
+
+.square[data-owner="white"] {
+  color: white;
+}
+
+.cant-select {
+  background-color: green !important;
+}
+
+#controller {
+  /* 配置 */
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+}
