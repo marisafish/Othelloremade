@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>オセロ</title>
+    <style>
+@import url("https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;400;500;700&display=swap");
+
+* {
+font-family: 'Zen Maru Gothic';
+}
+
+body {
+  background: url(https://img.freepik.com/free-photo/living-room-product-backdrop-interior-background_53876-147964.jpg?t=st=1713579808~exp=1713583408~hmac=bb0fee55cfb326e7ad9099fbd3b9e364e6bb36b4a30cb8a640ef06ae9246bacb&w=740);
+  background-repeat: no-repeat;
+  background-position:60% 60%;
+  background-size:cover;
+  padding: 20px;
+}
+
+.container {
+  font-size: 0; /* ボタンの余白をなくす */
+}
+
+#title {
+  /* 配置 */
+  text-align: center;
+
+  /* 色 */
+  color: #FFE700;
+}
+
+#board {
+  /* 配置 */
+  margin: 5rem auto;
+  
+  /* サイズ */
+  width: 40rem;
+  height: 40rem;
+  
+  /* 色 */
+  background-color: black;
+  outline: 1.5rem solid;
+  outline-color: black;
+}
+
+.square {
+  /* サイズ */
+  width: 5rem;
+  height: 5rem;
+  
+  /* 色 */
+  background-color: green;
+  box-shadow: none !important;
+
+  /* フォントサイズ */
+  font-size: 2.5rem;
+}
+
+.square[data-owner="black"] {
+  color: black;
+}
+
+.square[data-owner="white"] {
+  color: white;
+}
+
+.cant-select {
+  background-color: green !important;
+}
+
+#controller {
+  /* 配置 */
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="title">
+            <h1>オセロ</h1>
+        </div>
+        <div id="board">
+            <div class="board-row">
+                <button type="button" class="btn btn-outline-dark square" data-row="0" data-col="0"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="0" data-col="1"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="0" data-col="2"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="0" data-col="3"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="0" data-col="4"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="0" data-col="5"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="0" data-col="6"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="0" data-col="7"></button>
+            </div>
+            <div class="board-row">
+                <button type="button" class="btn btn-outline-dark square" data-row="1" data-col="0"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="1" data-col="1"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="1" data-col="2"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="1" data-col="3"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="1" data-col="4"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="1" data-col="5"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="1" data-col="6"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="1" data-col="7"></button>
+            </div>
+            <div class="board-row">
+                <button type="button" class="btn btn-outline-dark square" data-row="2" data-col="0"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="2" data-col="1"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="2" data-col="2"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="2" data-col="3"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="2" data-col="4"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="2" data-col="5"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="2" data-col="6"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="2" data-col="7"></button>
+            </div>
+            <div class="board-row">
+                <button type="button" class="btn btn-outline-dark square" data-row="3" data-col="0"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="3" data-col="1"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="3" data-col="2"></button>
+                <button type="button" class="btn btn-outline-dark square cant-select" data-row="3" data-col="3" data-owner="black">●</button>
+                <button type="button" class="btn btn-outline-dark square cant-select" data-row="3" data-col="4" data-owner="white">●</button>
+                <button type="button" class="btn btn-outline-dark square" data-row="3" data-col="5"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="3" data-col="6"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="3" data-col="7"></button>
+            </div>
+            <div class="board-row">
+                <button type="button" class="btn btn-outline-dark square" data-row="4" data-col="0"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="4" data-col="1"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="4" data-col="2"></button>
+                <button type="button" class="btn btn-outline-dark square cant-select" data-row="4" data-col="3" data-owner="white">●</button>
+                <button type="button" class="btn btn-outline-dark square cant-select" data-row="4" data-col="4" data-owner="black">●</button>
+                <button type="button" class="btn btn-outline-dark square" data-row="4" data-col="5"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="4" data-col="6"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="4" data-col="7"></button>
+            </div>
+            <div class="board-row">
+                <button type="button" class="btn btn-outline-dark square" data-row="5" data-col="0"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="5" data-col="1"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="5" data-col="2"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="5" data-col="3"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="5" data-col="4"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="5" data-col="5"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="5" data-col="6"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="5" data-col="7"></button>
+            </div>
+            <div class="board-row">
+                <button type="button" class="btn btn-outline-dark square" data-row="6" data-col="0"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="6" data-col="1"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="6" data-col="2"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="6" data-col="3"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="6" data-col="4"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="6" data-col="5"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="6" data-col="6"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="6" data-col="7"></button>
+            </div>
+            <div class="board-row">
+                <button type="button" class="btn btn-outline-dark square" data-row="7" data-col="0"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="7" data-col="1"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="7" data-col="2"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="7" data-col="3"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="7" data-col="4"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="7" data-col="5"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="7" data-col="6"></button>
+                <button type="button" class="btn btn-outline-dark square" data-row="7" data-col="7"></button>
+            </div>
+        </div>
+        <div id="controller">
+            <button type="button" id="btn-initialize" class="btn btn-secondary">リセット</button>
+        </div>
+        <h3>Designed by Freepik</h3>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+/*****************************************
+ * 定数
+ *****************************************/
+// マスの状態
+SQUARE_STATUS_IS_OWNED = "01"; // 自分が所有している
+SQUARE_STATUS_IS_OTHER = "02"; // 相手が所有している
+SQUARE_STATUS_NOT_SELECTED = "09"; // 選択されていない
+
+/*****************************************
+ * 変数
+ *****************************************/
+// ターンを示す変数
+let isOddTurn = true;
+
+/*****************************************
+ * イベント
+ *****************************************/
+$(function () {
+  // マス目にイベントを設定する
+  $(".square").click(clickSquareEvent);
+
+  // 盤面を初期化する
+  initializeEvent();
+});
+
+/**
+ * マス目クリックイベント
+ */
+function clickSquareEvent() {
+  // クリックされたマス目のオブジェクトを取得する
+  let square = $(this);
+
+  // クリックされたマス目が選択できない場合はスキップ
+  if (!canSelect(square)) {
+    return;
+  }
+
+  // マスの所有者を変更する
+  changeOwner(square);
+}
+
+/**
+ * 盤面初期化イベント
+ */
+function initializeEvent() {
+  // 初期値設定
+  changeOwner(getTargetSquare(3, 3));
+  changeOwner(getTargetSquare(3, 4));
+  changeOwner(getTargetSquare(4, 4));
+  changeOwner(getTargetSquare(4, 3));
+}
+
+/*****************************************
+ * 内部関数
+ *****************************************/
+/**
+ * マス目の所有者を変更する
+ */
+function changeOwner(square) {
+  // マス目にピースを置く
+  putPiece(square, getTurnString());
+
+  // 隣接するピースを反転する
+  changeOwnerOpposite(square);
+
+  // ターンを変更する
+  changeTurn();
+}
+
+/**
+ * マス目にピースを置く
+ */
+function putPiece(targetSquare, owner) {
+  targetSquare.text("●").attr("data-owner", owner).addClass("selected");
+}
+
+/**
+ * ターンを示す文字列を取得する
+ */
+function getTurnString() {
+  if (isOddTurn) {
+    return "black";
+  }
+  return "white";
+}
+
+/**
+ * ターンを変更する
+ */
+function changeTurn() {
+  // ターンを変更する
+  isOddTurn = !isOddTurn;
+}
+
+/**
+ * 指定位置のマス目オブジェクトを取得する
+ */
+function getTargetSquare(row, col) {
+  return $("[data-row=" + row + "][data-col=" + col + "]");
+}
+
+/**
+ * 指定されたマス目が選択できるか判定する
+ */
+function canSelect(square) {
+  // 既にピースが設定されている場合は選択不可
+  if (square.hasClass("selected")) {
+    return false;
+  }
+  return true;
+}
+
+/**
+ * 所有者を変更する
+ */
+function changeOwnerOpposite(square) {
+  // クリックされたマス目の位置を取得する
+  let row = square.data("row");
+  let col = square.data("col");
+
+  // 所有者を変更する
+  changeOwnerOppositeLower(row, col); // 下
+}
+
+/**
+ * 所有者を変更する(下)
+ */
+function changeOwnerOppositeLower(row, col) {
+  // 対向先を取得する
+  let endPos = getPosOppositeLower(row, col);
+  if (endPos == null) {
+    return;
+  }
+
+  // 対向先まで所有者を変更する
+  let targetCol = col;
+  for (targetRow = row + 1; targetRow < endPos.row; targetRow++) {
+    let targetSquare = getTargetSquare(targetRow, targetCol);
+    putPiece(targetSquare, getTurnString());
+  }
+}
+
+/**
+ * 対向の所有マスの位置を取得する(下)
+ */
+function getPosOppositeLower(row, col) {
+  // 基準マスが最端の場合は対向先が存在しない
+  if (row == 7) {
+    return null;
+  }
+
+  // 隣接マスが相手所有ではない場合は対向先が存在しない
+  let targetRow = row + 1;
+  let targetCol = col;
+  if (getSquareStatus(targetRow, targetCol) != SQUARE_STATUS_IS_OTHER) {
+    return null;
+  }
+
+  // 対向先の有無を判定する
+  for (targetRow++; targetRow <= 7; targetRow++) {
+    // マスの状態を取得する
+    let status = getSquareStatus(targetRow, targetCol);
+
+    // 選択されていないマスに到達した場合は終了する
+    if (status == SQUARE_STATUS_NOT_SELECTED) {
+      return null;
+    }
+
+    // 自分の所有マスに到達した場合、位置を返却する
+    if (status == SQUARE_STATUS_IS_OWNED) {
+      return {
+        row: targetRow,
+        col: targetCol,
+      };
+    }
+  }
+  return null;
+}
+
+/**
+ * 調査対象のマス目の状態を取得する
+ */
+function getSquareStatus(row, col) {
+  // マスを取得する
+  let targetSquare = getTargetSquare(row, col);
+
+  // selectedクラスを持っていなければ未選択
+  if (!targetSquare.hasClass("selected")) {
+    return SQUARE_STATUS_NOT_SELECTED;
+  }
+
+  // 自分が所有している
+  if (getTurnString() == targetSquare.attr("data-owner")) {
+    return SQUARE_STATUS_IS_OWNED;
+  }
+
+  // 相手が所有している
+  return SQUARE_STATUS_IS_OTHER;
+}
+
+//リセットボタンを押した時に再読み込み
+let btnReload = document.getElementById('btn-initialize');
+btnReload.addEventListener('click', function(){
+    location.reload();
+});
+    </script>
+</body>
+</html>
